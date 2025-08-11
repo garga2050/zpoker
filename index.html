@@ -3,18 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Z Poker 2.1 — Timer Inteligente</title>
+  <title>Z Poker 2.2 — Upload de Áudios</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="wrap">
     <header class="topbar">
-      <div class="brand">
-        <div class="logo">Z</div>
-        <div class="titles">
-          <h1>Z Poker 2.1</h1>
-          <p class="sub">Timer inteligente com progressão baseada nas fichas (25/50 início)</p>
-        </div>
+      <img src="images/logo.png" class="logo" alt="Z Poker Logo">
+      <div class="titles">
+        <h1>Z Poker 2.2</h1>
+        <p class="sub">Timer com progressão 25/50 e upload de áudios (início e subida de blind)</p>
       </div>
     </header>
 
@@ -32,11 +30,30 @@
             <input id="startingChips" type="number" min="500" value="5000">
           </label>
         </div>
+        <div class="upload-block">
+          <div class="upload-item">
+            <label>Áudio de Boas-vindas (MP3)</label>
+            <input id="welcomeFile" type="file" accept="audio/*" />
+            <div class="upload-actions">
+              <button id="testWelcome" class="btn small">Testar</button>
+              <button id="clearWelcome" class="btn small danger">Remover</button>
+              <span id="welcomeStatus" class="status">Nenhum arquivo</span>
+            </div>
+          </div>
+          <div class="upload-item">
+            <label>Áudio de Subida de Blind (MP3)</label>
+            <input id="levelUpFile" type="file" accept="audio/*" />
+            <div class="upload-actions">
+              <button id="testLevelUp" class="btn small">Testar</button>
+              <button id="clearLevelUp" class="btn small danger">Remover</button>
+              <span id="levelUpStatus" class="status">Nenhum arquivo</span>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <button id="generateBtn" class="btn primary">Gerar estrutura</button>
           <button id="applyBtn" class="btn">Aplicar & Iniciar</button>
         </div>
-        <div class="hint">Sequência sempre começa em <b>25/50</b> e usa valores coerentes com as fichas (25, 50, 100, 500, 1000, 5000).</div>
       </section>
 
       <section class="card timer">
@@ -60,13 +77,15 @@
           <button id="addFinalBtn" class="btn small">+ nível final</button>
         </div>
         <div id="levelsList" class="levels"></div>
-        <div class="foot-hint">Edite valores/duração. O tempo por nível é calculado a partir do tempo total.</div>
       </section>
     </main>
 
-    <footer class="footer">Z Poker — bip curto (faltando 1 min) e bip longo (troca). Salvo em localStorage.</footer>
+    <footer class="footer">Z Poker — upload de áudios salvo no navegador (localStorage). 25/50 início, fichas 25/50/100/500/1000/5000.</footer>
   </div>
 
+  <!-- Audio elements -->
+  <audio id="welcomeAudio" preload="auto"></audio>
+  <audio id="levelUpAudio" preload="auto"></audio>
   <audio id="beepShort" src="sounds/beep_short.mp3" preload="auto"></audio>
   <audio id="beepLong" src="sounds/beep_long.mp3" preload="auto"></audio>
 
