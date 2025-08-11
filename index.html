@@ -2,58 +2,43 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Z Poker — Timer de Torneio</title>
-
-  <!-- PWA / iOS -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/assets/icon-192.png">
-  <meta name="theme-color" content="#041022">
-
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Z Poker 2.0 — Timer Inteligente</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app" class="container">
-    <header class="topbar">
-      <div class="brand">
-        <img src="assets/icon-192.png" alt="Z Poker" class="logo">
-        <h1>Z Poker</h1>
-      </div>
-      <div class="top-actions">
-        <button id="installBtn" class="ghost">Instalar</button>
-        <button id="fullscreenBtn" class="ghost">Tela cheia</button>
-        <button id="exportBtn" class="ghost">Exportar</button>
-        <label class="import-label ghost">Importar
-          <input id="importFile" type="file" accept="application/json" style="display:none">
-        </label>
-      </div>
+  <div class="app">
+    <header>
+      <h1>Z Poker 2.0</h1>
+      <p class="subtitle">Informe duração, jogadores e fichas — o app calcula os blinds</p>
     </header>
 
-    <main class="grid">
-      <section class="card config">
+    <main class="container">
+      <section class="config card">
         <h2>Configurações</h2>
-        <label>Jogadores
+        <label>Tempo total do torneio (minutos)
+          <input id="totalMinutes" type="number" min="1" value="240">
+        </label>
+        <label>Número de jogadores
           <input id="numPlayers" type="number" min="1" value="10">
         </label>
-        <label>Fichas iniciais
+        <label>Fichas iniciais por jogador
           <input id="startingChips" type="number" min="1" value="5000">
         </label>
-        <label>Taxa eliminação por nível (%) 
-          <input id="elimRate" type="number" step="0.1" min="0.1" value="3.5">
-        </label>
-        <div class="estimate">Estimativa: <span id="estimateText">-</span></div>
+        <div class="row">
+          <button id="generateBtn" class="btn primary">Gerar estrutura automática</button>
+          <button id="applyBtn" class="btn">Aplicar (iniciar)</button>
+        </div>
+        <div class="note">Você pode editar níveis manualmente depois de gerar.</div>
       </section>
 
-      <section class="card timer">
-        <div class="levelInfo">
-          <div class="levelText">Nível <span id="levelIndex">1</span> / <span id="levelCount">1</span></div>
-          <div class="blinds"><span id="smallBlind">25</span> / <span id="bigBlind">50</span></div>
+      <section class="timer card">
+        <div class="timer-top">
+          <div class="level-info">Nível <span id="levelIndex">-</span> / <span id="levelCount">-</span></div>
+          <div class="blinds" id="blindsText">-</div>
         </div>
 
-        <div class="clock" id="clock">0:15:00</div>
+        <div class="clock" id="clock">0:00:00</div>
 
         <div class="controls">
           <button id="prevBtn" class="btn">◀ Prev</button>
@@ -61,32 +46,28 @@
           <button id="nextBtn" class="btn">Next ▶</button>
           <button id="resetBtn" class="btn danger">Reset</button>
         </div>
-        <div class="note">Use espaço para iniciar/pausar. ← / → para navegar níveis.</div>
+
+        <div id="visualNotice" class="visual-notice hidden"></div>
       </section>
 
-      <section class="card structure">
+      <section class="structure card">
         <div class="struct-header">
           <h2>Estrutura de Blinds</h2>
           <div><button id="addFinalBtn" class="btn small">+ Nível final</button></div>
         </div>
+
         <div id="levelsList" class="levelsList"></div>
-        <div class="hint">Toque nos valores para editar. Níveis destacados mostram o atual.</div>
+
+        <div class="hint">Edite valores e duração. O app recalcula estimativa.</div>
       </section>
     </main>
 
-    <footer class="footer">Z Poker — PWA instalável. Troque assets/alert.mp3 por um beep curto para alertas.</footer>
+    <footer class="footer">Z Poker 2.0 — bip curto (1 min) e bip longo (troca). Salve seu progresso no GitHub Pages.</footer>
   </div>
 
-  <audio id="alertSound" src="assets/alert.mp3" preload="auto"></audio>
+  <audio id="beepShort" src="sounds/beep_short.mp3" preload="auto"></audio>
+  <audio id="beepLong" src="sounds/beep_long.mp3" preload="auto"></audio>
 
-  <script src="app.js" defer></script>
-  <script>
-    // Register service worker for PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').catch(function(err){ console.warn('SW reg failed', err); });
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
