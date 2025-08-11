@@ -2,67 +2,69 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Z Poker 2.0 — Timer Inteligente</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Z Poker 2.1 — Timer Inteligente</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1>Z Poker 2.0</h1>
-      <p class="subtitle">Informe duração, jogadores e fichas — o app calcula os blinds</p>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">Z</div>
+        <div class="titles">
+          <h1>Z Poker 2.1</h1>
+          <p class="sub">Timer inteligente com progressão baseada nas fichas (25/50 início)</p>
+        </div>
+      </div>
     </header>
 
-    <main class="container">
-      <section class="config card">
+    <main class="grid">
+      <section class="card config">
         <h2>Configurações</h2>
-        <label>Tempo total do torneio (minutos)
-          <input id="totalMinutes" type="number" min="1" value="240">
-        </label>
-        <label>Número de jogadores
-          <input id="numPlayers" type="number" min="1" value="10">
-        </label>
-        <label>Fichas iniciais por jogador
-          <input id="startingChips" type="number" min="1" value="5000">
-        </label>
         <div class="row">
-          <button id="generateBtn" class="btn primary">Gerar estrutura automática</button>
-          <button id="applyBtn" class="btn">Aplicar (iniciar)</button>
+          <label>Tempo total (min)
+            <input id="totalMinutes" type="number" min="10" value="240">
+          </label>
+          <label>Jogadores
+            <input id="numPlayers" type="number" min="2" value="10">
+          </label>
+          <label>Fichas iniciais
+            <input id="startingChips" type="number" min="500" value="5000">
+          </label>
         </div>
-        <div class="note">Você pode editar níveis manualmente depois de gerar.</div>
+        <div class="row">
+          <button id="generateBtn" class="btn primary">Gerar estrutura</button>
+          <button id="applyBtn" class="btn">Aplicar & Iniciar</button>
+        </div>
+        <div class="hint">Sequência sempre começa em <b>25/50</b> e usa valores coerentes com as fichas (25, 50, 100, 500, 1000, 5000).</div>
       </section>
 
-      <section class="timer card">
-        <div class="timer-top">
-          <div class="level-info">Nível <span id="levelIndex">-</span> / <span id="levelCount">-</span></div>
-          <div class="blinds" id="blindsText">-</div>
+      <section class="card timer">
+        <div class="timer-head">
+          <div class="level">Nível <span id="levelIndex">-</span> / <span id="levelCount">-</span></div>
+          <div class="blinds"><span id="smallBlind">-</span> / <span id="bigBlind">-</span></div>
         </div>
-
-        <div class="clock" id="clock">0:00:00</div>
-
+        <div id="clock" class="clock">0:00:00</div>
+        <div id="notice" class="notice hidden"></div>
         <div class="controls">
-          <button id="prevBtn" class="btn">◀ Prev</button>
+          <button id="prevBtn" class="btn">◀</button>
           <button id="startPauseBtn" class="btn primary">Iniciar</button>
-          <button id="nextBtn" class="btn">Next ▶</button>
+          <button id="nextBtn" class="btn">▶</button>
           <button id="resetBtn" class="btn danger">Reset</button>
         </div>
-
-        <div id="visualNotice" class="visual-notice hidden"></div>
       </section>
 
-      <section class="structure card">
-        <div class="struct-header">
+      <section class="card structure">
+        <div class="struct-head">
           <h2>Estrutura de Blinds</h2>
-          <div><button id="addFinalBtn" class="btn small">+ Nível final</button></div>
+          <button id="addFinalBtn" class="btn small">+ nível final</button>
         </div>
-
-        <div id="levelsList" class="levelsList"></div>
-
-        <div class="hint">Edite valores e duração. O app recalcula estimativa.</div>
+        <div id="levelsList" class="levels"></div>
+        <div class="foot-hint">Edite valores/duração. O tempo por nível é calculado a partir do tempo total.</div>
       </section>
     </main>
 
-    <footer class="footer">Z Poker 2.0 — bip curto (1 min) e bip longo (troca). Salve seu progresso no GitHub Pages.</footer>
+    <footer class="footer">Z Poker — bip curto (faltando 1 min) e bip longo (troca). Salvo em localStorage.</footer>
   </div>
 
   <audio id="beepShort" src="sounds/beep_short.mp3" preload="auto"></audio>
